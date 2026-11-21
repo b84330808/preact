@@ -494,13 +494,13 @@ export function initDebug() {
 		if (oldDiffed) oldDiffed(vnode);
 
 		if (vnode._children != null) {
-			const keys = [];
+			const keys = new Set();
 			for (let i = 0; i < vnode._children.length; i++) {
 				const child = vnode._children[i];
 				if (!child || child.key == null) continue;
 
 				const key = child.key;
-				if (keys.indexOf(key) !== -1) {
+				if (keys.has(key)) {
 					console.error(
 						'Following component has two or more children with the ' +
 							`same key attribute: "${key}". This may cause glitches and misbehavior ` +
@@ -513,7 +513,7 @@ export function initDebug() {
 					break;
 				}
 
-				keys.push(key);
+				keys.add(key);
 			}
 		}
 
